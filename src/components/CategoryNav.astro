@@ -1,0 +1,34 @@
+---
+import { CATEGORIES } from '../lib/article-schema.mjs';
+import { categoryHref, href } from '../lib/paths';
+
+interface Props {
+  current: string;
+  counts: Record<string, number>;
+}
+
+const { current, counts } = Astro.props;
+const items = [
+  { slug: 'all', label: 'すべて', href: href('/') },
+  ...CATEGORIES.map((category) => ({
+    slug: category.slug,
+    label: category.label,
+    href: categoryHref(category.slug),
+  })),
+];
+---
+
+<div class="tabs-wrap">
+  <nav class="tabs" aria-label="カテゴリ">
+    {
+      items.map((item) => (
+        <a class:list={['tab', { 'is-current': item.slug === current }]} href={item.href} aria-current={item.slug === current ? 'page' : undefined}>
+          {item.label}
+          {(item.slug === 'all' ? counts.all : counts[item.slug] ?? 0) > 0 && (
+            <span class="count">{item.slug === 'all' ? counts.all : counts[item.slug]}</span>
+          )}
+        </a>
+      ))
+    }
+  </nav>
+</div>

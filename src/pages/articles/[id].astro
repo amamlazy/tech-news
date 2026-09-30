@@ -1,0 +1,60 @@
+---
+import { render } from 'astro:content';
+import Points from '../../components/Points.astro';
+import SiteFrame from '../../components/SiteFrame.astro';
+import { getCategory } from '../../lib/article-schema.mjs';
+import { formatDateTime, getArticles, type Article } from '../../lib/articles';
+import { categoryHref, href } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article) => ({
+    params: { id: article.id },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const category = getCategory(article.data.category);
+const { Content } = await render(article);
+---
+
+<SiteFrame title={article.data.title} description={article.data.summary} kind="article">
+  <article data-article-category={category.slug}>
+    <nav class="breadcrumb" aria-label="パンくず">
+      <a href={href('/')}>ホーム</a>
+      <span aria-hidden="true">/</span>
+      <a href={categoryHref(category.slug)}>{category.label}</a>
+    </nav>
+    <p class="meta">
+      <a class="category-link" href={categoryHref(category.slug)}>
+        <span class="dot" aria-hidden="true"></span>
+        {category.label}
+      </a>
+      <time datetime={article.data.publishedAt}>{formatDateTime(article.data.publishedAt)}</time>
+    </p>
+    <h1>{article.data.title}</h1>
+    <p class="summary">{article.data.summary}</p>
+    <section class="points-panel">
+      <h2>ポイント</h2>
+      <Points points={article.data.points} />
+    </section>
+    <div class="prose-article">
+      <Content />
+    </div>
+    <aside class="source-block">
+      <p class="source-kicker">出典</p>
+      <p class="source-name">{article.data.sourceName}</p>
+      <p class="source-url">{article.data.sourceUrl}</p>
+      <a class="source-link" href={article.data.sourceUrl} target="_blank" rel="noopener noreferrer">
+        出典を読む
+        <span aria-hidden="true">↗</span>
+        <span class="sr-only">（新しいタブで開く）</span>
+      </a>
+    </aside>
+  </article>
+</SiteFrame>

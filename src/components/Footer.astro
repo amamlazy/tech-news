@@ -1,0 +1,14 @@
+---
+import { REPO_URL, SITE_NAME, asset } from '../lib/paths';
+---
+
+<footer class="site-footer">
+  <div class="mx-auto flex w-full max-w-[40rem] flex-col gap-1 px-4 sm:px-6">
+    <p>Xを開く前に、ここを1ページ。</p>
+    <p>
+      <a href={REPO_URL}>{SITE_NAME} のリポジトリ</a>
+      <span aria-hidden="true"> · </span>
+      <a href={asset('rss.xml')}>RSS</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,27 @@
+---
+import Points from './Points.astro';
+import { formatTime, type Article } from '../lib/articles';
+import { getCategory } from '../lib/article-schema.mjs';
+import { categoryHref, href } from '../lib/paths';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const category = getCategory(article.data.category);
+const articleHref = href(`/articles/${article.id}/`);
+---
+
+<article class="article-card" data-article-category={category.slug}>
+  <p class="meta">
+    <a class="category-link" href={categoryHref(category.slug)}>
+      <span class="dot" aria-hidden="true"></span>
+      {category.label}
+    </a>
+    <time datetime={article.data.publishedAt}>{formatTime(article.data.publishedAt)}</time>
+  </p>
+  <h3><a href={articleHref}>{article.data.title}</a></h3>
+  <p class="summary">{article.data.summary}</p>
+  <Points points={article.data.points} />
+</article>

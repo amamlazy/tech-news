@@ -1,0 +1,26 @@
+---
+import ArticleFeed from '../../components/ArticleFeed.astro';
+import CategoryNav from '../../components/CategoryNav.astro';
+import SiteFrame from '../../components/SiteFrame.astro';
+import { getCategory } from '../../lib/article-schema.mjs';
+import { countByCategory, getArticles } from '../../lib/articles';
+
+const category = getCategory('weekly');
+const articles = await getArticles();
+const counts = countByCategory(articles);
+const weekly = articles.filter((article) => article.data.category === 'weekly');
+---
+
+<SiteFrame title="今週のまとめ" description={category.description}>
+  <header>
+    <p class="kicker">WEEKLY</p>
+    <h1 class="page-title">今週のまとめ</h1>
+    <p class="page-description">一週間の動きを、カテゴリ weekly の記事として短く残します。</p>
+  </header>
+  <CategoryNav current="weekly" counts={counts} />
+  <ArticleFeed
+    articles={weekly}
+    emptyTitle="今週のまとめはまだありません"
+    emptyBody="category を weekly にした記事が追加されると、ここに新しい順で並びます。"
+  />
+</SiteFrame>

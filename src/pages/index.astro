@@ -1,0 +1,29 @@
+---
+import ArticleFeed from '../components/ArticleFeed.astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import SiteFrame from '../components/SiteFrame.astro';
+import { countByCategory, formatDateLabel, getArticles } from '../lib/articles';
+import { SITE_DESCRIPTION, SITE_NAME } from '../lib/paths';
+
+const articles = await getArticles();
+const counts = countByCategory(articles);
+const latest = articles[0];
+---
+
+<SiteFrame title={SITE_NAME} description={SITE_DESCRIPTION}>
+  <header class="hero">
+    <p class="kicker">TECH NEWS</p>
+    <h1>テック日報</h1>
+    <p class="lede">
+      AI、フロントエンド、バックエンド、キャリア、ガジェット。タイムラインを追う代わりに、1日1回ここを開く。
+    </p>
+    {latest && <p class="latest-date">最新 {formatDateLabel(latest.data.publishedAt.slice(0, 10))}</p>}
+  </header>
+  <CategoryFilter articles={articles} counts={counts}>
+    <ArticleFeed
+      articles={articles}
+      emptyTitle="記事はまだありません"
+      emptyBody="src/content/articles/ に Markdown を追加すると、ここに日付順で並びます。"
+    />
+  </CategoryFilter>
+</SiteFrame>
