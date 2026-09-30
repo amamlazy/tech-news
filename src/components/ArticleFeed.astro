@@ -1,6 +1,6 @@
 ---
-import ArticleCard from './ArticleCard.astro';
-import { formatDateLabel, groupByDate, type Article } from '../lib/articles';
+import ArticleRow from './ArticleRow.astro';
+import { formatDateChip, formatDateLabel, groupByDate, type Article } from '../lib/articles';
 
 interface Props {
   articles: Article[];
@@ -10,6 +10,7 @@ interface Props {
 
 const { articles, emptyTitle, emptyBody } = Astro.props;
 const groups = groupByDate(articles);
+const latestDate = groups[0]?.date;
 ---
 
 {
@@ -19,18 +20,35 @@ const groups = groupByDate(articles);
       <p class="empty-body">{emptyBody}</p>
     </div>
   ) : (
-    groups.map((group) => (
-      <section class="date-group">
-        <h2 class="date-heading">
-          <span>{formatDateLabel(group.date)}</span>
-          <span class="date-count">{group.articles.length}件</span>
-        </h2>
-        <div>
-          {group.articles.map((article) => (
-            <ArticleCard article={article} />
+    <>
+      {groups.length > 1 && (
+        <nav class="date-jumps" aria-label="日付へ移動">
+          <span class="date-jumps-label">日付</span>
+          {groups.map((group) => (
+            <a
+              class="date-jump"
+              href={`#date-${group.date}`}
+              data-date-categories={[...new Set(group.articles.map((article) => article.data.category))].join(' ')}
+            >
+              {formatDateChip(group.date, latestDate ?? group.date)}
+              <span class="count">{group.articles.length}</span>
+            </a>
           ))}
-        </div>
-      </section>
-    ))
+        </nav>
+      )}
+      {groups.map((group) => (
+        <section class="date-group" id={`date-${group.date}`}>
+          <h2 class="date-heading">
+            <time datetime={group.date}>{formatDateLabel(group.date)}</time>
+            <span class="date-count">{group.articles.length}件</span>
+          </h2>
+          <ul class="article-list">
+            {group.articles.map((article) => (
+              <ArticleRow article={article} />
+            ))}
+          </ul>
+        </section>
+      ))}
+    </>
   )
 }
