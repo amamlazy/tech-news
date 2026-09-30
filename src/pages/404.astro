@@ -1,0 +1,15 @@
+---
+import SiteFrame from '../components/SiteFrame.astro';
+import { href } from '../lib/paths';
+---
+
+<SiteFrame title="ページが見つかりません" description="指定されたページはありません。" noindex>
+  <header>
+    <p class="kicker">404</p>
+    <h1 class="page-title">ページが見つかりません</h1>
+    <p class="page-description">リンクが古い、または記事がまだ公開されていません。</p>
+  </header>
+  <p class="mt-6">
+    <a class="source-link" href={href('/')}>ホームへ戻る</a>
+  </p>
+</SiteFrame>

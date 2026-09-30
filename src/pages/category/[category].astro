@@ -1,0 +1,39 @@
+---
+import ArticleFeed from '../../components/ArticleFeed.astro';
+import CategoryNav from '../../components/CategoryNav.astro';
+import SiteFrame from '../../components/SiteFrame.astro';
+import { CATEGORIES } from '../../lib/article-schema.mjs';
+import { countByCategory, getArticles } from '../../lib/articles';
+import { categoryHref, href } from '../../lib/paths';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+interface Props {
+  category: (typeof CATEGORIES)[number];
+}
+
+const { category } = Astro.props;
+const articles = await getArticles();
+const counts = countByCategory(articles);
+const filtered = articles.filter((article) => article.data.category === category.slug);
+const canonicalPath = category.slug === 'weekly' ? href('/weekly/') : categoryHref(category.slug);
+---
+
+<SiteFrame title={category.label} description={category.description} canonicalPath={canonicalPath}>
+  <header>
+    <p class="kicker">CATEGORY</p>
+    <h1 class="page-title">{category.label}</h1>
+    <p class="page-description">{category.description}</p>
+  </header>
+  <CategoryNav current={category.slug} counts={counts} />
+  <ArticleFeed
+    articles={filtered}
+    emptyTitle={`${category.label}の記事はまだありません`}
+    emptyBody="このカテゴリの記事が追加されると、ここに新しい順で並びます。"
+  />
+</SiteFrame>

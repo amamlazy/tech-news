@@ -1,0 +1,36 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import { formatDateLabel, groupByDate, type Article } from '../lib/articles';
+
+interface Props {
+  articles: Article[];
+  emptyTitle: string;
+  emptyBody: string;
+}
+
+const { articles, emptyTitle, emptyBody } = Astro.props;
+const groups = groupByDate(articles);
+---
+
+{
+  groups.length === 0 ? (
+    <div class="empty-state">
+      <p class="empty-title">{emptyTitle}</p>
+      <p class="empty-body">{emptyBody}</p>
+    </div>
+  ) : (
+    groups.map((group) => (
+      <section class="date-group">
+        <h2 class="date-heading">
+          <span>{formatDateLabel(group.date)}</span>
+          <span class="date-count">{group.articles.length}件</span>
+        </h2>
+        <div>
+          {group.articles.map((article) => (
+            <ArticleCard article={article} />
+          ))}
+        </div>
+      </section>
+    ))
+  )
+}

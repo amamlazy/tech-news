@@ -1,0 +1,43 @@
+---
+import { CATEGORIES } from '../lib/article-schema.mjs';
+import type { Article } from '../lib/articles';
+
+interface Props {
+  articles: Article[];
+  counts: Record<string, number>;
+}
+
+const { articles, counts } = Astro.props;
+---
+
+<div class="feed">
+  <div class="tabs-wrap">
+    <div class="tabs" role="radiogroup" aria-label="カテゴリで絞り込む">
+      <input class="tab-input" type="radio" name="feed-category" id="cat-all" checked />
+      <label class="tab" for="cat-all">
+        すべて
+        <span class="count">{articles.length}</span>
+      </label>
+      {
+        CATEGORIES.map((category) => (
+          <>
+            <input class="tab-input" type="radio" name="feed-category" id={`cat-${category.slug}`} />
+            <label class="tab" for={`cat-${category.slug}`}>
+              {category.label}
+              {(counts[category.slug] ?? 0) > 0 && <span class="count">{counts[category.slug]}</span>}
+            </label>
+          </>
+        ))
+      }
+    </div>
+  </div>
+  <slot />
+  {
+    CATEGORIES.map((category) => (
+      <div class="empty-state filter-empty" data-empty-for={category.slug}>
+        <p class="empty-title">{category.label}の記事はまだありません</p>
+        <p class="empty-body">このカテゴリの記事が追加されると、ここに表示されます。</p>
+      </div>
+    ))
+  }
+</div>
