@@ -12,20 +12,17 @@ const category = getCategory(article.data.category);
 const articleHref = href(`/articles/${article.id}/`);
 ---
 
-<li class="article-row" data-article-category={category.slug}>
-  <a class="article-row-link" href={articleHref}>
-    <h3 class="article-title">
-      <span>{article.data.title}</span>
-      <span class="article-chevron" aria-hidden="true">›</span>
-    </h3>
-    <p class="summary">{article.data.summary}</p>
+<li class="article-card" data-article-category={category.slug}>
+  <a class="article-card-link" href={articleHref}>
     <p class="meta">
       <span class="category-label">
         <span class="dot" aria-hidden="true"></span>
         {category.label}
       </span>
-      <span class="meta-source">{article.data.sourceName}</span>
       <time datetime={article.data.publishedAt}>{formatTime(article.data.publishedAt)}</time>
     </p>
+    <h3 class="article-title">{article.data.title}</h3>
+    <p class="summary">{article.data.summary}</p>
+    <p class="card-source">{article.data.sourceName}</p>
   </a>
 </li>

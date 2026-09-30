@@ -11,7 +11,7 @@ const counts = countByCategory(articles);
 const weekly = articles.filter((article) => article.data.category === 'weekly');
 ---
 
-<SiteFrame title="今週のまとめ" description={category.description}>
+<SiteFrame title="今週のまとめ" description={category.description} wide>
   <header>
     <p class="kicker">WEEKLY</p>
     <h1 class="page-title">今週のまとめ</h1>

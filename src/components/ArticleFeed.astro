@@ -1,5 +1,5 @@
 ---
-import ArticleRow from './ArticleRow.astro';
+import ArticleCard from './ArticleCard.astro';
 import { formatDateChip, formatDateLabel, groupByDate, type Article } from '../lib/articles';
 
 interface Props {
@@ -44,7 +44,7 @@ const latestDate = groups[0]?.date;
           </h2>
           <ul class="article-list">
             {group.articles.map((article) => (
-              <ArticleRow article={article} />
+              <ArticleCard article={article} />
             ))}
           </ul>
         </section>

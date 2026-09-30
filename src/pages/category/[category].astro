@@ -24,7 +24,7 @@ const filtered = articles.filter((article) => article.data.category === category
 const canonicalPath = category.slug === 'weekly' ? href('/weekly/') : categoryHref(category.slug);
 ---
 
-<SiteFrame title={category.label} description={category.description} canonicalPath={canonicalPath}>
+<SiteFrame title={category.label} description={category.description} canonicalPath={canonicalPath} wide>
   <header>
     <p class="kicker">CATEGORY</p>
     <h1 class="page-title">{category.label}</h1>
