@@ -8,9 +8,10 @@ interface Props {
   kind?: 'website' | 'article';
   canonicalPath?: string;
   noindex?: boolean;
+  wide?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION, kind = 'website', canonicalPath, noindex = false } = Astro.props;
+const { title, description = SITE_DESCRIPTION, kind = 'website', canonicalPath, noindex = false, wide = false } = Astro.props;
 const fullTitle = title === SITE_NAME ? SITE_NAME : `${title} · ${SITE_NAME}`;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
 const rssHref = new URL(asset('rss.xml'), Astro.site);
@@ -61,7 +62,7 @@ const rssHref = new URL(asset('rss.xml'), Astro.site);
     <a class="skip-link" href="#main">本文へスキップ</a>
     <div class="accent-bar" aria-hidden="true"></div>
     <slot name="header" />
-    <main id="main" class="mx-auto w-full max-w-[40rem] flex-1 px-4 py-8 sm:px-6">
+    <main id="main" class:list={['shell', { 'shell-wide': wide }]}>
       <slot />
     </main>
     <slot name="footer" />

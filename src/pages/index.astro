@@ -9,10 +9,9 @@ const articles = await getArticles();
 const counts = countByCategory(articles);
 ---
 
-<SiteFrame title={SITE_NAME} description={SITE_DESCRIPTION}>
+<SiteFrame title={SITE_NAME} description={SITE_DESCRIPTION} wide>
   <header class="hero">
-    <p class="kicker">TECH NEWS</p>
-    <h1>テック日報</h1>
+    <h1><span class="kicker">TECH NEWS</span>テック日報</h1>
     <p class="lede">
       AI、フロントエンド、バックエンド、キャリア、ガジェット。タイムラインを追う代わりに、1日1回ここを開く。
     </p>

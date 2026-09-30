@@ -9,13 +9,14 @@ interface Props {
   kind?: 'website' | 'article';
   canonicalPath?: string;
   noindex?: boolean;
+  wide?: boolean;
 }
 
-const props = Astro.props;
+const { wide = false, ...props } = Astro.props;
 ---
 
-<BaseLayout {...props}>
-  <Header slot="header" />
+<BaseLayout {...props} wide={wide}>
+  <Header slot="header" wide={wide} />
   <slot />
-  <Footer slot="footer" />
+  <Footer slot="footer" wide={wide} />
 </BaseLayout>
