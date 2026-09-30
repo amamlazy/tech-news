@@ -35,6 +35,7 @@ const { Content } = await render(article);
         <span class="dot" aria-hidden="true"></span>
         {category.label}
       </a>
+      <span class="meta-source">{article.data.sourceName}</span>
       <time datetime={article.data.publishedAt}>{formatDateTime(article.data.publishedAt)}</time>
     </p>
     <h1>{article.data.title}</h1>

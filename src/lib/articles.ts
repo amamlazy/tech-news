@@ -31,11 +31,22 @@ export function groupByDate(articles: Article[]): { date: string; articles: Arti
 
 export function formatDateLabel(isoDate: string): string {
   const [year, month, day] = isoDate.split('-').map(Number);
-  const weekday = new Intl.DateTimeFormat('ja-JP', {
+  const weekday = weekdayLabel(isoDate);
+  return `${year}年${month}月${day}日（${weekday}）`;
+}
+
+export function formatDateChip(isoDate: string, latestIsoDate = isoDate): string {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const showYear = year !== Number(latestIsoDate.slice(0, 4));
+  const date = showYear ? `${year}年${month}月${day}日` : `${month}月${day}日`;
+  return `${date}（${weekdayLabel(isoDate)}）`;
+}
+
+function weekdayLabel(isoDate: string): string {
+  return new Intl.DateTimeFormat('ja-JP', {
     weekday: 'short',
     timeZone: 'Asia/Tokyo',
   }).format(new Date(`${isoDate}T12:00:00+09:00`));
-  return `${year}年${month}月${day}日（${weekday}）`;
 }
 
 export function formatTime(publishedAt: string): string {

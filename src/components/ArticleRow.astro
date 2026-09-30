@@ -1,0 +1,31 @@
+---
+import { formatTime, type Article } from '../lib/articles';
+import { getCategory } from '../lib/article-schema.mjs';
+import { href } from '../lib/paths';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const category = getCategory(article.data.category);
+const articleHref = href(`/articles/${article.id}/`);
+---
+
+<li class="article-row" data-article-category={category.slug}>
+  <a class="article-row-link" href={articleHref}>
+    <h3 class="article-title">
+      <span>{article.data.title}</span>
+      <span class="article-chevron" aria-hidden="true">›</span>
+    </h3>
+    <p class="summary">{article.data.summary}</p>
+    <p class="meta">
+      <span class="category-label">
+        <span class="dot" aria-hidden="true"></span>
+        {category.label}
+      </span>
+      <span class="meta-source">{article.data.sourceName}</span>
+      <time datetime={article.data.publishedAt}>{formatTime(article.data.publishedAt)}</time>
+    </p>
+  </a>
+</li>
