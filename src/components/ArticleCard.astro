@@ -1,4 +1,5 @@
 ---
+import FavoriteButton from './FavoriteButton.astro';
 import { formatTime, type Article } from '../lib/articles';
 import { getCategory } from '../lib/article-schema.mjs';
 import { href } from '../lib/paths';
@@ -25,4 +26,13 @@ const articleHref = href(`/articles/${article.id}/`);
     <p class="summary">{article.data.summary}</p>
     <p class="card-source">{article.data.sourceName}</p>
   </a>
+  <FavoriteButton
+    id={article.id}
+    title={article.data.title}
+    date={article.data.publishedAt}
+    category={article.data.category}
+    url={articleHref}
+    summary={article.data.summary}
+    sourceName={article.data.sourceName}
+  />
 </li>

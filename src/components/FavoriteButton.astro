@@ -1,0 +1,25 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  url: string;
+  summary?: string;
+  sourceName?: string;
+}
+
+const { id, title, date, category, url, summary = '', sourceName = '' } = Astro.props;
+const payload = JSON.stringify({ id, title, date, category, url, summary, sourceName });
+---
+
+<button
+  type="button"
+  class="favorite-toggle"
+  data-favorite-id={id}
+  data-favorite={payload}
+  aria-pressed="false"
+  aria-label={`お気に入りに追加：${title}`}
+>
+  <span data-star aria-hidden="true">☆</span>
+</button>

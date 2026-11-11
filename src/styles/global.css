@@ -492,6 +492,7 @@ main.shell-wide {
 }
 
 .article-card {
+  position: relative;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -526,8 +527,11 @@ main.shell-wide {
 }
 
 .article-card .meta {
+  align-items: center;
   justify-content: space-between;
   gap: 0.4rem 0.7rem;
+  min-height: 1.75rem;
+  padding-right: 2rem;
   font-size: 0.75rem;
   line-height: 1.3;
 }
@@ -693,6 +697,100 @@ main.shell-wide {
   margin-top: 0.45rem;
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.empty-actions {
+  margin-top: 0.9rem;
+}
+
+.empty-actions a {
+  color: var(--accent);
+  font-weight: 600;
+  text-underline-offset: 0.18em;
+}
+
+.favorites-count {
+  margin: 0.75rem 0 0;
+  color: var(--faint);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#favorites-count[hidden],
+#favorites-empty[hidden],
+#favorites-list[hidden] {
+  display: none !important;
+}
+
+@media (min-width: 1100px) {
+  #favorites-list.article-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.favorite-toggle {
+  display: inline-grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.favorite-toggle:hover,
+.favorite-toggle:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.favorite-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.favorite-toggle[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.article-card .favorite-toggle {
+  position: absolute;
+  z-index: 2;
+  top: 0.55rem;
+  right: 0.4rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 1rem;
+}
+
+.article-card .favorite-toggle::after {
+  content: "";
+  position: absolute;
+  inset: -0.45rem;
+}
+
+.article-card .favorite-toggle:focus-visible {
+  outline-offset: -2px;
+}
+
+.detail-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.detail-toolbar .meta {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
 }
 
 .filter-empty {
@@ -919,6 +1017,7 @@ main.shell-wide {
   .tabs-wrap,
   .date-jumps,
   .theme-toggle,
+  .favorite-toggle,
   .skip-link,
   .accent-bar {
     display: none !important;

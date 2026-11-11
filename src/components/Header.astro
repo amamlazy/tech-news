@@ -10,6 +10,7 @@ const { wide = false } = Astro.props;
 const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const home = href('/');
 const weekly = href('/weekly/');
+const favorites = href('/favorites/');
 const onWeekly = path === weekly || path === href('/category/weekly/');
 ---
 
@@ -22,6 +23,7 @@ const onWeekly = path === weekly || path === href('/category/weekly/');
     <nav class="site-nav" aria-label="サイト">
       <a href={home} aria-current={path === home ? 'page' : undefined}>ホーム</a>
       <a href={weekly} aria-current={onWeekly ? 'page' : undefined}>今週のまとめ</a>
+      <a href={favorites} aria-current={path === favorites ? 'page' : undefined}>お気に入り</a>
       <a href={asset('rss.xml')}>RSS</a>
       <ThemeToggle />
     </nav>

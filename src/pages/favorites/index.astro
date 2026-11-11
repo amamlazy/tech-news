@@ -1,0 +1,27 @@
+---
+import SiteFrame from '../../components/SiteFrame.astro';
+import { CATEGORIES } from '../../lib/article-schema.mjs';
+import { href } from '../../lib/paths';
+
+const categoryLabels = Object.fromEntries(CATEGORIES.map((category) => [category.slug, category.label]));
+---
+
+<SiteFrame title="お気に入り" description="星を付けた記事を、このブラウザに保存して見返せます。" wide>
+  <header class="hero">
+    <h1><span class="kicker">FAVORITES</span>お気に入り</h1>
+    <p class="lede">星を付けた記事が、このブラウザに残ります。</p>
+  </header>
+  <div id="favorites-root" data-category-labels={JSON.stringify(categoryLabels)}>
+    <p id="favorites-count" class="favorites-count" hidden></p>
+    <div id="favorites-empty" class="empty-state">
+      <p class="empty-title">お気に入りはまだありません</p>
+      <p class="empty-body">
+        記事カード右上の☆を押すと、ここに集まります。このブラウザだけに保存され、ログインは要りません。
+      </p>
+      <p class="empty-actions">
+        <a href={href('/')}>記事を見にいく</a>
+      </p>
+    </div>
+    <ul id="favorites-list" class="article-list" hidden></ul>
+  </div>
+</SiteFrame>
