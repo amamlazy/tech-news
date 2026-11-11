@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import FavoriteButton from '../../components/FavoriteButton.astro';
 import Points from '../../components/Points.astro';
 import SiteFrame from '../../components/SiteFrame.astro';
 import { getCategory } from '../../lib/article-schema.mjs';
@@ -20,6 +21,7 @@ interface Props {
 
 const { article } = Astro.props;
 const category = getCategory(article.data.category);
+const articleHref = href(`/articles/${article.id}/`);
 const { Content } = await render(article);
 ---
 
@@ -30,14 +32,25 @@ const { Content } = await render(article);
       <span aria-hidden="true">/</span>
       <a href={categoryHref(category.slug)}>{category.label}</a>
     </nav>
-    <p class="meta">
-      <a class="category-link" href={categoryHref(category.slug)}>
-        <span class="dot" aria-hidden="true"></span>
-        {category.label}
-      </a>
-      <span class="meta-source">{article.data.sourceName}</span>
-      <time datetime={article.data.publishedAt}>{formatDateTime(article.data.publishedAt)}</time>
-    </p>
+    <div class="detail-toolbar">
+      <p class="meta">
+        <a class="category-link" href={categoryHref(category.slug)}>
+          <span class="dot" aria-hidden="true"></span>
+          {category.label}
+        </a>
+        <span class="meta-source">{article.data.sourceName}</span>
+        <time datetime={article.data.publishedAt}>{formatDateTime(article.data.publishedAt)}</time>
+      </p>
+      <FavoriteButton
+        id={article.id}
+        title={article.data.title}
+        date={article.data.publishedAt}
+        category={article.data.category}
+        url={articleHref}
+        summary={article.data.summary}
+        sourceName={article.data.sourceName}
+      />
+    </div>
     <h1>{article.data.title}</h1>
     <p class="summary">{article.data.summary}</p>
     <section class="points-panel">

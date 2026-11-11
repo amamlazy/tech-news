@@ -12,6 +12,7 @@ AI、フロントエンド、バックエンド、キャリア、ガジェット
 - `/category/ai/` など、カテゴリごとの一覧
 - `/articles/YYYY-MM-DD-slug/` 要約、ポイント、本文、出典
 - `/weekly/` 今週のまとめ（`category: weekly`）
+- `/favorites/` お気に入り。カードの☆でこのブラウザに保存する（ログイン不要）
 - `/rss.xml`
 
 ## 記事を追加する
